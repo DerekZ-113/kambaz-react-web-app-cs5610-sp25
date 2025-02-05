@@ -1,68 +1,91 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* p {
+    background-color: green;
+    color: white;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+p#wd-id-selector-1 {
+    background-color: red;
+    color: white;
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+p#wd-id-selector-2 {
+    background-color: yellow;
+    color: black;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.wd-class-selector {
+    background-color: purple;
+    color: white;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+.wd-selector-1 .wd-selector-3 {
+    background-color: red;
+    color: white;
 }
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+.wd-selector-2 > .wd-selector-3 > .wd-selector-4 {
+    background-color: yellow;
+    color: blue;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.wd-fg-color-black { color: black; }
+.wd-fg-color-white { color: white; }
+.wd-fg-color-blue { color: #7070ff; }
+.wd-fg-color-red { color: #ff7070; }
+.wd-fg-color-green { color: green; }
+
+.wd-bg-color-yellow  { background-color: #ffff07;}
+.wd-bg-color-blue    { background-color: #7070ff;}
+.wd-bg-color-red     { background-color: #ff7070;}
+.wd-bg-color-green   { background-color: green;}
+.wd-bg-color-gray    { background-color: lightgray;}
+
+.wd-border-fat { border-width: 20px 30px 20px 30px; }
+.wd-border-thin { border-width: 4px; }
+.wd-border-solid { border-style: solid; }
+.wd-border-dashed { border-style: dashed; }
+.wd-border-yellow { border-color: #ffff07; }
+.wd-border-red {
+border-color: #ff7070; }
+.wd-border-blue {
+border-color: #7070ff; }
+
+
+.wd-margin-bottom {
+margin-bottom: 50px;
 }
+.wd-margin-right-left {
+margin-left: 50px;
+margin-right: 50px;
+}
+.wd-margin-all-around {
+margin: 30px;
+}
+
+.wd-rounded-corners-top {
+border-top-left-radius: 40px;
+border-top-right-radius: 40px;
+}
+.wd-rounded-corners-bottom {
+border-bottom-left-radius: 40px;
+border-bottom-right-radius: 40px;
+}
+.wd-rounded-corners-all-around {
+border-radius: 50px;
+}
+.wd-rounded-corners-inline {
+border-radius: 30px 0px 20px 50px;
+}
+
+.wd-dimension-portrait {
+width: 75px;
+height: 100px;
+}
+.wd-dimension-landscape {
+width: 100px;
+height: 75px;
+}
+.wd-dimension-square {
+width: 75px;
+height: 75px;
+}
+  */

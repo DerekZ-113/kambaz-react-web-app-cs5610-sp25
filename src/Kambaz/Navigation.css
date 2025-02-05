@@ -1,0 +1,32 @@
+.custom-nav {
+    width: 110px;
+    background-color: black;
+}
+
+.custom-nav-link {
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    border: none;
+}
+
+.custom-nav-link img {
+    display: block;
+    margin: 0 auto;
+}
+
+.custom-nav-link .fs-1 {
+    display: block;
+    margin: 0 auto;
+}
+
+#wd-account-link .fs-1 {
+    color: white !important;
+}
+
+#wd-kambaz-navigation .nav-link.active {
+    background-color: white !important;
+    color: red !important;
+    border: none !important;
+}
