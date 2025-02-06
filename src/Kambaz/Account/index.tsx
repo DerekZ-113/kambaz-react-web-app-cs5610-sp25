@@ -7,6 +7,7 @@ import AccountNavigation from "./Navigation";
 export default function Account() {
     return (
         <div id="wd-account-screen">
+            <div className="wd-main-content-offset">
             <table>
                 <tr>
                     <td valign="top">
@@ -22,6 +23,7 @@ export default function Account() {
                     </td>
                 </tr>
             </table>
+            </div>
         </div>
     );
 }

@@ -30,3 +30,7 @@
     color: red !important;
     border: none !important;
 }
+
+#wd-account-link.active .fs-1 {
+    color: gray !important;
+}
