@@ -25,7 +25,7 @@ export default function KambazNavigation() {
                 </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-                <Nav.Link as={NavLink} to="/Kambaz/Courses" id="wd-course-link" className="custom-nav-link text-white text-center">
+                <Nav.Link as={NavLink} to="/Kambaz/Courses/1234" id="wd-course-link" className="custom-nav-link text-white text-center">
                     <FaBook className="fs-1 text-danger"/>Courses
                 </Nav.Link>
             </Nav.Item>
