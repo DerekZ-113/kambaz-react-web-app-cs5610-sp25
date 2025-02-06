@@ -41,9 +41,9 @@ export default function Assignments() {
                     <ListGroup className="wd-lessons rounded-0">
                         <ListGroup.Item className="wd-lesson p-3 ps-1"> 
                             <BsGripVertical className="me-2 fs-3" />
-                            <LuNotebookPen />
+                            <LuNotebookPen className="text-success"/>
                             <a href="#/Kambaz/Courses/1234/Assignments/123" 
-                            className="wd-assignment-link text-black text-decoration-none">
+                            className="wd-assignment-link text-black fw-bold text-decoration-none">
                                 A1
                             </a>
                             <div className="ms-4 text-secondary">
@@ -55,9 +55,9 @@ export default function Assignments() {
 
                         <ListGroup.Item className="wd-lesson p-3 ps-1">
                             <BsGripVertical className="me-2 fs-3" />
-                            <LuNotebookPen />
+                            <LuNotebookPen className="text-success"/>
                             <a href="#/Kambaz/Courses/1234/Assignments/124" 
-                            className="wd-assignment-link text-black text-decoration-none">
+                            className="wd-assignment-link text-black fw-bold text-decoration-none">
                                 A2
                             </a>
                             <div className="ms-4 text-secondary">
@@ -69,9 +69,9 @@ export default function Assignments() {
 
                         <ListGroup.Item className="wd-lesson p-3 ps-1">
                             <BsGripVertical className="me-2 fs-3" />
-                            <LuNotebookPen />
+                            <LuNotebookPen className="text-success"/>
                             <a href="#/Kambaz/Courses/1234/Assignments/125" 
-                            className="wd-assignment-link text-black text-decoration-none">
+                            className="wd-assignment-link text-black fw-bold text-decoration-none">
                                 A3
                             </a>
                             <div className="ms-4 text-secondary">
