@@ -1,6 +1,15 @@
 import { Form, Row, Col, Button } from "react-bootstrap";
+import { Link, useParams } from "react-router-dom";
+import * as db from "../../Database";
 
 export default function AssignmentEditor() {
+    const { cid, aid } = useParams();
+    const assignment = db.assignments.find((a) => a._id === aid);
+
+    if (!assignment) {
+        return <div>Assignment not found</div>;
+    }
+
     return (
         <div id="wd-assignments-editor" className="p-4">
             <Form>
@@ -8,7 +17,7 @@ export default function AssignmentEditor() {
                     <Form.Label><h3>Assignment Name</h3></Form.Label>
                     <Form.Control 
                         id="wd-name"
-                        defaultValue="A1 - ENV + HTML"
+                        defaultValue={assignment.title}
                     />
                 </Form.Group>
 
@@ -18,7 +27,7 @@ export default function AssignmentEditor() {
                         id="wd-description"
                         as="textarea" 
                         rows={10}
-                        defaultValue="The assignment is available online Submit a link to the landing page of"
+                        defaultValue={assignment.description}
                     />
                 </Form.Group>
 
@@ -32,7 +41,7 @@ export default function AssignmentEditor() {
                         <Form.Control
                             id="wd-points"
                             type="number"
-                            defaultValue={100}
+                            defaultValue={assignment.points}
                             style={{ width: '100px' }}
                         />
                     </Col>
@@ -79,7 +88,7 @@ export default function AssignmentEditor() {
                         <Form.Control
                             id="wd-due-date"
                             type="date"
-                            defaultValue="2024-05-13"
+                            defaultValue={assignment.dueDate.split('T')[0]}
                             style={{ width: '200px' }}
                         />
                     </Col>
@@ -95,7 +104,7 @@ export default function AssignmentEditor() {
                         <Form.Control
                             id="wd-available-from"
                             type="date"
-                            defaultValue="2024-05-06"
+                            defaultValue={assignment.availableFrom.split('T')[0]}
                             style={{ width: '200px' }}
                         />
                     </Col>
@@ -201,12 +210,18 @@ export default function AssignmentEditor() {
                 <hr />
 
                 <div className="text-end">
-                    <Button variant="light" className="me-2">
+                    <Link 
+                        to={`/Kambaz/Courses/${cid}/Assignments`}
+                        className="btn btn-light me-2"
+                    >
                         Cancel
-                    </Button>
-                    <Button variant="danger">
+                    </Link>
+                    <Link 
+                        to={`/Kambaz/Courses/${cid}/Assignments`}
+                        className="btn btn-danger"
+                    >
                         Save
-                    </Button>
+                    </Link>
                 </div>
             </Form>
         </div>

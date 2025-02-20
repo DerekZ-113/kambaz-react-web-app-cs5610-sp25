@@ -1,49 +1,42 @@
-import { Nav } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
-import { FaBook, FaCalendar, FaInbox } from "react-icons/fa";
-import { GoBeaker } from "react-icons/go";
-import { ImMeter } from "react-icons/im";
-import { BsPeople } from "react-icons/bs";
+import { ListGroup } from "react-bootstrap";
+import { FaInbox } from "react-icons/fa";
+import { Link, useLocation } from "react-router-dom";
 import './Navigation.css';
+import { AiOutlineDashboard } from "react-icons/ai";
+import { IoCalendarOutline } from "react-icons/io5";
+import { LiaBookSolid, LiaCogSolid } from "react-icons/lia";
+import { FaRegCircleUser } from "react-icons/fa6";
 
 export default function KambazNavigation() {
+    const { pathname } = useLocation();
+    const links = [
+        { label: "Dashboard", path: "/Kambaz/Dashboard", icon: AiOutlineDashboard },
+        { label: "Courses",   path: "/Kambaz/Dashboard", icon: LiaBookSolid },
+        { label: "Calendar",  path: "/Kambaz/Calendar",  icon: IoCalendarOutline },
+        { label: "Inbox",     path: "/Kambaz/Inbox",     icon: FaInbox },
+        { label: "Labs",      path: "/Labs",             icon: LiaCogSolid },
+    ];
+    
     return (
-        <Nav variant="tabs" id="wd-kambaz-navigation" className="custom-nav d-none d-md-block rounded-0 position-fixed bottom-0 top-0 bg-black z-2">
-            <Nav.Item>
-                <Nav.Link className="custom-nav-link text-danger text-center" href="https://www.northeastern.edu/" id="wd-neu-link" target="_blank">
-                    <img src="/images/NU_icon.png" width="75px" />
-                </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-                <Nav.Link as={NavLink} to="/Kambaz/Account" id="wd-account-link" className="custom-nav-link text-white text-center">
-                    <BsPeople className="fs-1 text-white"/>Account
-                </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-                <Nav.Link as={NavLink} to="/Kambaz/Dashboard" id="wd-dashboard-link" className="custom-nav-link text-white text-center">
-                    <ImMeter className="fs-1 text-danger"/>Dashboard
-                </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-                <Nav.Link as={NavLink} to="/Kambaz/Courses/1234" id="wd-course-link" className="custom-nav-link text-white text-center">
-                    <FaBook className="fs-1 text-danger"/>Courses
-                </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-                <Nav.Link as={NavLink} to="/Kambaz/Calendar" id="wd-calendar-link" className="custom-nav-link text-white text-center">
-                    <FaCalendar className="fs-1 text-danger"/>Calendar
-                </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-                <Nav.Link as={NavLink} to="/Kambaz/Inbox" id="wd-inbox-link" className="custom-nav-link text-white text-center">
-                    <FaInbox className="fs-1 text-danger"/>Inbox
-                </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-                <Nav.Link as={NavLink} to="/Labs" id="wd-labs-link" className="custom-nav-link text-white text-center">
-                    <GoBeaker className="fs-1 text-danger"/>Labs
-                </Nav.Link>
-            </Nav.Item>
-        </Nav>
+        <ListGroup id="wd-kambaz-navigation" style={{width: 120}}
+            className="rounded-0 position-fixed bottom-0 top-0 d-none d-md-block bg-black z-2">
+        <ListGroup.Item id="wd-neu-link" target="_blank" href="https://www.northeastern.edu/"
+            action className="bg-black border-0 text-center">
+            <img src="../public/images/NU_icon.png" width="75px" /></ListGroup.Item>
+        <ListGroup.Item as={Link} to="/Kambaz/Account" className={`text-center border-0 bg-black
+                ${pathname.includes("Account") ? "bg-white text-danger" : "bg-black text-white"}`}>
+            <FaRegCircleUser className={`fs-1 ${pathname.includes("Account") ? "text-danger" : "text-white"}`} />
+            <br />
+            Account
+        </ListGroup.Item>
+        {links.map((link) => (
+            <ListGroup.Item key={link.path} as={Link} to={link.path} className={`bg-black text-center border-0
+                ${pathname.includes(link.label) ? "text-danger bg-white" : "text-white bg-black"}`}>
+            {link.icon({ className: "fs-1 text-danger"})}
+            <br />
+            {link.label}
+            </ListGroup.Item>
+        ))}
+        </ListGroup>
     );
 }

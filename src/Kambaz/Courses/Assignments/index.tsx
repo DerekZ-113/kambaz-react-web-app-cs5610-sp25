@@ -2,11 +2,18 @@ import { Form, Button, ListGroup } from "react-bootstrap";
 import { FaSearch, FaPlus } from "react-icons/fa";
 import { BsGripVertical } from "react-icons/bs";
 import { LuNotebookPen } from "react-icons/lu";
+import { Link, useParams } from "react-router-dom";
 import LessonControlButtons from "../Modules/LessonControlButtons";
 import ModuleControlButtons from "../Modules/ModuleControlButtons";
+import * as db from "../../Database";
 import "../../style.css";
 
 export default function Assignments() {
+    const { cid } = useParams();
+    const assignments = db.assignments.filter(
+        (assignment) => assignment.course === cid
+    );
+
     return (
         <div>
             <div className="d-flex justify-content-between align-items-center mb-4">
@@ -19,13 +26,10 @@ export default function Assignments() {
                     />
                 </Form.Group>
                 <div>
-                    <Button 
-                        variant="secondary" 
-                        className="me-2">
+                    <Button variant="secondary" className="me-2">
                         <FaPlus className="me-2" />Group
                     </Button>
-                    <Button 
-                        variant="secondary bg-danger text-white">
+                    <Button variant="secondary bg-danger text-white">
                         <FaPlus className="me-2" />Assignment
                     </Button>
                 </div>
@@ -39,47 +43,27 @@ export default function Assignments() {
                         <ModuleControlButtons /> 
                     </div>
                     <ListGroup className="wd-lessons rounded-0">
-                        <ListGroup.Item className="wd-lesson p-3 ps-1"> 
-                            <BsGripVertical className="me-2 fs-3" />
-                            <LuNotebookPen className="text-success"/>
-                            <a href="#/Kambaz/Courses/1234/Assignments/123" 
-                            className="wd-assignment-link text-black fw-bold text-decoration-none">
-                                A1
-                            </a>
-                            <div className="ms-4 text-secondary">
-                                <span className="text-danger">Multiple Modules</span> | <b>Not available until</b> May 6 at 12:00am |<br />
-                                <b>Due</b> May 13 at 11:59pm | 100pts
-                            </div>
-                            <LessonControlButtons />
-                        </ListGroup.Item>
-
-                        <ListGroup.Item className="wd-lesson p-3 ps-1">
-                            <BsGripVertical className="me-2 fs-3" />
-                            <LuNotebookPen className="text-success"/>
-                            <a href="#/Kambaz/Courses/1234/Assignments/124" 
-                            className="wd-assignment-link text-black fw-bold text-decoration-none">
-                                A2
-                            </a>
-                            <div className="ms-4 text-secondary">
-                                <span className="text-danger">Multiple Modules</span> | <b>Not available until</b> May 13 at 12:00am |<br />
-                                <b>Due</b> May 20 at 11:59pm | 100pts
-                            </div>
-                            <LessonControlButtons />
-                        </ListGroup.Item>
-
-                        <ListGroup.Item className="wd-lesson p-3 ps-1">
-                            <BsGripVertical className="me-2 fs-3" />
-                            <LuNotebookPen className="text-success"/>
-                            <a href="#/Kambaz/Courses/1234/Assignments/125" 
-                            className="wd-assignment-link text-black fw-bold text-decoration-none">
-                                A3
-                            </a>
-                            <div className="ms-4 text-secondary">
-                                <span className="text-danger">Multiple Modules</span> | <b>Not available until</b> May 20 at 12:00am |<br />
-                                <b>Due</b> May 27 at 11:59pm | 100pts
-                            </div>
-                            <LessonControlButtons />
-                        </ListGroup.Item>
+                        {assignments.map((assignment) => (
+                            <ListGroup.Item 
+                                key={assignment._id}
+                                className="wd-lesson p-3 ps-1"
+                            > 
+                                <BsGripVertical className="me-2 fs-3" />
+                                <LuNotebookPen className="text-success"/>
+                                <Link 
+                                    to={`/Kambaz/Courses/${cid}/Assignments/${assignment._id}`}
+                                    className="wd-assignment-link text-black fw-bold text-decoration-none"
+                                >
+                                    {assignment.title}
+                                </Link>
+                                <div className="ms-4 text-secondary">
+                                    <span className="text-danger">Multiple Modules</span> | 
+                                    <b> Not available until</b> May 6 at 12:00am |<br />
+                                    <b>Due</b> May 13 at 11:59pm | 100pts
+                                </div>
+                                <LessonControlButtons />
+                            </ListGroup.Item>
+                        ))}
                     </ListGroup>
                 </ListGroup.Item>
             </ListGroup>
