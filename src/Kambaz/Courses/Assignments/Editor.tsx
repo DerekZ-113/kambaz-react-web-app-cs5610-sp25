@@ -1,14 +1,44 @@
 import { Form, Row, Col } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
-import * as db from "../../Database";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { updateAssignment } from "./reducer";
+import { useState, useEffect } from "react";
+import ProtectedContent from "../../Account/ProtectedContent";
 
 export default function AssignmentEditor() {
     const { cid, aid } = useParams();
-    const assignment = db.assignments.find((a) => a._id === aid);
-
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    
+    const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+    const { currentUser } = useSelector((state: any) => state.accountReducer);
+    
+    const assignment = assignments.find((a: any) => a._id === aid);
+    const isReadOnly = !currentUser || currentUser.role !== "FACULTY";
+    
+    const [formData, setFormData] = useState(assignment || {});
+    
+    useEffect(() => {
+        if (assignment) {
+            setFormData(assignment);
+        }
+    }, [assignment]);
+    
     if (!assignment) {
         return <div>Assignment not found</div>;
     }
+    
+    const handleChange = (field: string, value: any) => {
+        setFormData({
+            ...formData,
+            [field]: value
+        });
+    };
+    
+    const handleSave = () => {
+        dispatch(updateAssignment(formData));
+        navigate(`/Kambaz/Courses/${cid}/Assignments`);
+    };
 
     return (
         <div id="wd-assignments-editor" className="p-4">
@@ -18,6 +48,8 @@ export default function AssignmentEditor() {
                     <Form.Control 
                         id="wd-name"
                         defaultValue={assignment.title}
+                        onChange={(e) => handleChange("title", e.target.value)}
+                        readOnly={isReadOnly}
                     />
                 </Form.Group>
 
@@ -28,6 +60,8 @@ export default function AssignmentEditor() {
                         as="textarea" 
                         rows={10}
                         defaultValue={assignment.description}
+                        onChange={(e) => handleChange("description", e.target.value)}
+                        readOnly={isReadOnly}
                     />
                 </Form.Group>
 
@@ -42,7 +76,9 @@ export default function AssignmentEditor() {
                             id="wd-points"
                             type="number"
                             defaultValue={assignment.points}
+                            onChange={(e) => handleChange("points", parseInt(e.target.value))}
                             style={{ width: '100px' }}
+                            readOnly={isReadOnly}
                         />
                     </Col>
                 </Row>
@@ -54,7 +90,7 @@ export default function AssignmentEditor() {
                         </Form.Group>
                     </Col>
                     <Col md={9}>
-                        <Form.Select id="wd-group" style={{ width: '200px' }}>
+                        <Form.Select id="wd-group" style={{ width: '200px' }} disabled={isReadOnly}>
                             <option value="ASSIGNMENTS">ASSIGNMENTS</option>
                             <option value="QUIZZES">QUIZZES</option>
                             <option value="EXAMS">EXAMS</option>
@@ -70,7 +106,7 @@ export default function AssignmentEditor() {
                         </Form.Group>
                     </Col>
                     <Col md={9}>
-                        <Form.Select id="wd-display-grade-as" style={{ width: '200px' }}>
+                        <Form.Select id="wd-display-grade-as" style={{ width: '200px' }} disabled={isReadOnly}>
                             <option value="Percentage">Percentage</option>
                             <option value="Points">Points</option>
                             <option value="Letter Grade">Letter Grade</option>
@@ -90,6 +126,7 @@ export default function AssignmentEditor() {
                             type="date"
                             defaultValue={assignment.dueDate.split('T')[0]}
                             style={{ width: '200px' }}
+                            readOnly={isReadOnly}
                         />
                     </Col>
                 </Row>
@@ -106,6 +143,7 @@ export default function AssignmentEditor() {
                             type="date"
                             defaultValue={assignment.availableFrom.split('T')[0]}
                             style={{ width: '200px' }}
+                            readOnly={isReadOnly}
                         />
                     </Col>
                 </Row>
@@ -117,7 +155,7 @@ export default function AssignmentEditor() {
                         </Form.Group>
                     </Col>
                     <Col md={9}>
-                        <Form.Select id="wd-submission-type" className="mb-3" style={{ width: '200px' }}>
+                        <Form.Select id="wd-submission-type" className="mb-3" style={{ width: '200px' }} disabled={isReadOnly}>
                             <option value="Online">Online</option>
                             <option value="Paper">Paper</option>
                         </Form.Select>
@@ -129,26 +167,31 @@ export default function AssignmentEditor() {
                                 id="wd-text-entry"
                                 label="Text Entry"
                                 className="mt-2"
+                                disabled={isReadOnly}
                             />
                             <Form.Check 
                                 type="checkbox"
                                 id="wd-website-url"
                                 label="Website URL"
+                                disabled={isReadOnly}
                             />
                             <Form.Check 
                                 type="checkbox"
                                 id="wd-media-recordings"
                                 label="Media Recordings"
+                                disabled={isReadOnly}
                             />
                             <Form.Check 
                                 type="checkbox"
                                 id="wd-student-annotation"
                                 label="Student Annotation"
+                                disabled={isReadOnly}
                             />
                             <Form.Check 
                                 type="checkbox"
                                 id="wd-file-upload"
                                 label="File Uploads"
+                                disabled={isReadOnly}
                             />
                         </div>
                     </Col>
@@ -167,6 +210,7 @@ export default function AssignmentEditor() {
                                 id="wd-assign-to"
                                 defaultValue="Everyone"
                                 style={{ width: '200px' }}
+                                readOnly={isReadOnly}
                             />
                         </Form.Group>
 
@@ -177,6 +221,7 @@ export default function AssignmentEditor() {
                                 type="date"
                                 defaultValue="2024-05-13"
                                 style={{ width: '200px' }}
+                                readOnly={isReadOnly}
                             />
                         </Form.Group>
 
@@ -189,6 +234,7 @@ export default function AssignmentEditor() {
                                         type="date"
                                         defaultValue="2024-05-06"
                                         style={{ width: '200px' }}
+                                        readOnly={isReadOnly}
                                     />
                                 </Form.Group>
                             </Col>
@@ -200,6 +246,7 @@ export default function AssignmentEditor() {
                                         type="date"
                                         defaultValue="2024-05-13"
                                         style={{ width: '200px' }}
+                                        readOnly={isReadOnly}
                                     />
                                 </Form.Group>
                             </Col>
@@ -216,12 +263,15 @@ export default function AssignmentEditor() {
                     >
                         Cancel
                     </Link>
-                    <Link 
-                        to={`/Kambaz/Courses/${cid}/Assignments`}
-                        className="btn btn-danger"
-                    >
-                        Save
-                    </Link>
+                    <ProtectedContent>
+                        <button 
+                            type="button"
+                            className="btn btn-danger"
+                            onClick={handleSave}
+                        >
+                            Save
+                        </button>
+                    </ProtectedContent>
                 </div>
             </Form>
         </div>
