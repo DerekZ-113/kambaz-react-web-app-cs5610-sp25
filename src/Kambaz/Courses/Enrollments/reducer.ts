@@ -13,7 +13,6 @@ const enrollmentsSlice = createSlice({
         enrollInCourse: (state, { payload }) => {
             const { userId, courseId } = payload;
             
-            // Check if already enrolled
             const existingEnrollment = state.enrollments.find(
                 e => e.user === userId && e.course === courseId
             );
