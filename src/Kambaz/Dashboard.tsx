@@ -1,8 +1,6 @@
 import { Button, Card, Col, Row } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
-import * as db from "./Database";
+import { Link } from "react-router-dom";
 import React, { useState } from "react";
-import { v4 as uuidv4 } from 'uuid';
 import { useSelector, useDispatch } from "react-redux";
 import { enrollInCourse, unenrollFromCourse } from "./Courses/Enrollments/reducer";
 import ProtectedContent from "./Account/ProtectedContent";
@@ -15,7 +13,6 @@ export default function Dashboard(
         updateCourse: () => void; })
 {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const { currentUser } = useSelector((state: any) => state.accountReducer);
     const { enrollments } = useSelector((state: any) => state.enrollmentsReducer);
     
