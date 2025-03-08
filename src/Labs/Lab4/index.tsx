@@ -11,7 +11,6 @@ import PassingDataOnEvent from "./PassingDataOnEvent";
 import PassingFunctions from "./PassingFunctions";
 import ReduxExamples from "./ReduxExamples";
 import TodoForm from "./ReduxExamples/todos/TodoForm";
-import TodoItem from "./ReduxExamples/todos/TodoItem";
 import StringStateVariables from "./StringStateVariables";
 
 
