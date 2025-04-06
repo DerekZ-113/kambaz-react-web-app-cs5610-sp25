@@ -13,7 +13,8 @@ export default function Assignments() {
     const { cid } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+    const assignmentsState = useSelector((state: any) => state.assignmentsReducer || {});
+    const assignments = assignmentsState.assignments || [];
     
     // State for delete confirmation modal
     const [showConfirmModal, setShowConfirmModal] = useState(false);

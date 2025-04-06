@@ -15,14 +15,22 @@ import * as courseClient from "./Courses/client";
 export default function Kambaz() {
     const [courses, setCourses] = useState<any[]>([]);
     const { currentUser } = useSelector((state: any) => state.accountReducer);
+    
     const fetchCourses = async () => {
         try {
-          const courses = await userClient.findMyCourses();
-          setCourses(courses);
+          // Only fetch courses if there's a logged-in user
+          if (currentUser) {
+            const courses = await userClient.findMyCourses();
+            setCourses(courses);
+          } else {
+            // Reset courses when not logged in
+            setCourses([]);
+          }
         } catch (error) {
-          console.error(error);
+          console.error("Error fetching courses:", error);
         }
       };
+      
       useEffect(() => {
         fetchCourses();
       }, [currentUser]);
@@ -33,26 +41,71 @@ export default function Kambaz() {
         });
 
         const addNewCourse = async () => {
-            const newCourse = await userClient.createCourse(course);
-            setCourses([ ...courses, newCourse ]);
-          };
+            try {
+                if (!currentUser) {
+                    console.error("User must be logged in to add a course");
+                    return;
+                }
+                
+                // Send request to create course
+                const newCourse = await userClient.createCourse(course);
+                console.log("New course created:", newCourse); // Debug log
+                
+                // Reset the form to provide visual feedback
+                setCourse({
+                    _id: uuidv4(), // Generate a new ID
+                    name: "New Course", 
+                    number: "New Number",
+                    startDate: "2023-09-10", 
+                    endDate: "2023-12-15", 
+                    description: "New Description",
+                });
+                
+                // Show success message and inform user about refresh
+                alert("Course added successfully! The page will refresh to show your new course.");
+                
+                // Force a page reload after a short delay to show the alert
+                setTimeout(() => {
+                    window.location.reload();
+                }, 5);
+                
+            } catch (error) {
+                console.error("Error adding course:", error);
+                alert("Failed to add course. Please try again.");
+            }
+        };
         
           const deleteCourse = async (courseId: string) => {
-            const status = await courseClient.deleteCourse(courseId);
-            setCourses(courses.filter((course) => course._id !== courseId));
+            try {
+              if (!currentUser) {
+                console.error("User must be logged in to delete a course");
+                return;
+              }
+              setCourses(courses.filter((course) => course._id !== courseId));
+            } catch (error) {
+              console.error("Error deleting course:", error);
+            }
           };
 
         const updateCourse = async () => {
-            await courseClient.updateCourse(course);
-            setCourses(
-                courses.map((c) => {
-                if (c._id === course._id) {
-                    return course;
-                } else {
-                    return c;
-                }
-                })
-            );
+            try {
+              if (!currentUser) {
+                console.error("User must be logged in to update a course");
+                return;
+              }
+              await courseClient.updateCourse(course);
+              setCourses(
+                  courses.map((c) => {
+                  if (c._id === course._id) {
+                      return course;
+                  } else {
+                      return c;
+                  }
+                  })
+              );
+            } catch (error) {
+              console.error("Error updating course:", error);
+            }
         };
 
     return (

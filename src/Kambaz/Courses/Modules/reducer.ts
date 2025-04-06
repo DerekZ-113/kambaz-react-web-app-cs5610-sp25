@@ -12,11 +12,13 @@ const modulesSlice = createSlice({
           },
       
         addModule: (state, { payload: module }) => {
-        // Use the server-provided module directly instead of creating a new one with new ID
-        state.modules = [...state.modules, { 
-            ...module,
-            lessons: module.lessons || [] 
-        }] as any;
+        const newModule: any = {
+            _id: uuidv4(),
+            lessons: [],
+            name: module.name,
+            course: module.course,
+        };
+        state.modules = [...state.modules, newModule] as any;
         },
         deleteModule: (state, { payload: moduleId }) => {
         state.modules = state.modules.filter(

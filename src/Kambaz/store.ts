@@ -2,13 +2,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import accountReducer from '../Kambaz/Account/reducer';
 import enrollmentsReducer from '../Kambaz/Courses/Enrollments/reducer';
 import modulesReducer from '../Kambaz/Courses/Modules/reducer';
-// Import other reducers as needed
+import assignmentsReducer from '../Kambaz/Courses/Assignments/reducer'; // Add this import
 
 const store = configureStore({
   reducer: {
     accountReducer,
     enrollmentsReducer,
     modulesReducer,
+    assignmentsReducer, // Register the assignments reducer
     // Add other reducers
   },
 });

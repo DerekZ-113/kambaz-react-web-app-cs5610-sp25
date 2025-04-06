@@ -1,10 +1,9 @@
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "./hooks"; 
 import { enrollInCourse, unenrollFromCourse } from "./Courses/Enrollments/reducer";
 import ProtectedContent from "./Account/ProtectedContent";
-import { User } from "./Account/types";
 
 export default function Dashboard(
     { courses, course, setCourse, addNewCourse,
@@ -73,6 +72,10 @@ export default function Dashboard(
         ? courses 
         : (courses || []).filter((c) => isEnrolled(c._id));
 
+    useEffect(() => {
+        console.log("Dashboard received courses:", courses.length);
+    }, [courses]);
+
     return (
         <div id="wd-dashboard">
             <h1 id="wd-dashboard-title">
@@ -109,7 +112,7 @@ export default function Dashboard(
 
             <h2 id="wd-dashboard-published">Published Courses ({displayCourses.length})</h2> <hr />
             <div id="wd-dashboard-courses">
-                <Row xs={1} md={5} className="g-4">
+                <Row xs={1} md={5} className="g-4" key={`courses-${courses.length}`}>
                     {displayCourses.map((course) => (
                         <Col key={course._id} className="wd-dashboard-course" style={{ width: "300px" }}>
                             <Card>
