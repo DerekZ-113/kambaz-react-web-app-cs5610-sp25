@@ -34,8 +34,6 @@ export default function Lab4() {
             <ArrayStateVariable />
             <ParentStateComponent />
             <ReduxExamples />
-            <TodoList />
-            <TodoForm />
         </div>
     );
 }

@@ -10,11 +10,11 @@ import { FaRegCircleUser } from "react-icons/fa6";
 export default function KambazNavigation() {
     const { pathname } = useLocation();
     const links = [
-        { label: "Dashboard", path: "/Kambaz/Dashboard", icon: AiOutlineDashboard },
-        { label: "Courses",   path: "/Kambaz/Dashboard", icon: LiaBookSolid },
-        { label: "Calendar",  path: "/Kambaz/Calendar",  icon: IoCalendarOutline },
-        { label: "Inbox",     path: "/Kambaz/Inbox",     icon: FaInbox },
-        { label: "Labs",      path: "/Labs",             icon: LiaCogSolid },
+        { id: "dashboard", label: "Dashboard", path: "/Kambaz/Dashboard", icon: AiOutlineDashboard },
+        { id: "courses", label: "Courses", path: "/Kambaz/Courses", icon: LiaBookSolid },
+        { id: "calendar", label: "Calendar", path: "/Kambaz/Calendar", icon: IoCalendarOutline },
+        { id: "inbox", label: "Inbox", path: "/Kambaz/Inbox", icon: FaInbox },
+        { id: "labs", label: "Labs", path: "/Labs", icon: LiaCogSolid },
     ];
     
     return (
@@ -31,7 +31,7 @@ export default function KambazNavigation() {
             Account
         </ListGroup.Item>
         {links.map((link) => (
-            <ListGroup.Item key={link.path} as={Link} to={link.path} className={`bg-black text-center border-0
+            <ListGroup.Item key={link.id} as={Link} to={link.path} className={`bg-black text-center border-0
                 ${pathname.includes(link.label) ? "text-danger bg-white" : "text-white bg-black"}`}>
             {link.icon({ className: "fs-1 text-danger"})}
             <br />

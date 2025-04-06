@@ -4,10 +4,10 @@ import { BsGripVertical } from "react-icons/bs";
 import { LuNotebookPen } from "react-icons/lu";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { addAssignment, deleteAssignment } from "./reducer";
-import { v4 as uuidv4 } from 'uuid';
+import { addAssignment, deleteAssignment, setAssignments } from "./reducer";
 import ProtectedContent from "../../Account/ProtectedContent";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import * as client from "./client";
 
 export default function Assignments() {
     const { cid } = useParams();
@@ -19,27 +19,47 @@ export default function Assignments() {
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [assignmentToDelete, setAssignmentToDelete] = useState<string | null>(null);
     
+    // Load assignments when component mounts
+    useEffect(() => {
+        const loadAssignments = async () => {
+            try {
+                const assignmentsData = await client.fetchCourseAssignments(cid || "");
+                dispatch(setAssignments(assignmentsData));
+            } catch (error) {
+                console.error("Error loading assignments:", error);
+            }
+        };
+        
+        if (cid) {
+            loadAssignments();
+        }
+    }, [cid, dispatch]);
+    
     const filteredAssignments = assignments.filter(
         (assignment: any) => assignment.course === cid
     );
     
-    const handleAddAssignment = () => {
-        const newAssignmentId = uuidv4();
-        const newAssignment = {
-            _id: newAssignmentId,
-            title: "New Assignment",
-            description: "New Assignment Description",
-            course: cid,
-            availableFrom: new Date().toISOString(),
-            dueDate: new Date().toISOString(),
-            points: 100,
-            modules: ["Multiple Modules"]
-        };
-        
-        dispatch(addAssignment(newAssignment));
-        
-        // Navigate to the editor for the new assignment
-        navigate(`/Kambaz/Courses/${cid}/Assignments/${newAssignmentId}`);
+    const handleAddAssignment = async () => {
+        try {
+            const newAssignment = {
+                title: "New Assignment",
+                description: "New Assignment Description",
+                course: cid,
+                availableFrom: new Date().toISOString(),
+                dueDate: new Date().toISOString(),
+                points: 100,
+                modules: ["Multiple Modules"]
+            };
+            
+            // Create assignment through API and update Redux store
+            const createdAssignment = await client.createAssignment(cid || "", newAssignment);
+            dispatch(addAssignment(createdAssignment));
+            
+            // Navigate to the editor for the new assignment
+            navigate(`/Kambaz/Courses/${cid}/Assignments/${createdAssignment._id}`);
+        } catch (error) {
+            console.error("Error creating assignment:", error);
+        }
     };
     
     // Open confirmation dialog
@@ -50,11 +70,17 @@ export default function Assignments() {
     };
     
     // Handle confirmed deletion
-    const handleConfirmedDelete = () => {
+    const handleConfirmedDelete = async () => {
         if (assignmentToDelete) {
-            dispatch(deleteAssignment(assignmentToDelete));
-            setShowConfirmModal(false);
-            setAssignmentToDelete(null);
+            try {
+                // Delete through API then update Redux store
+                await client.deleteAssignment(assignmentToDelete);
+                dispatch(deleteAssignment(assignmentToDelete));
+                setShowConfirmModal(false);
+                setAssignmentToDelete(null);
+            } catch (error) {
+                console.error("Error deleting assignment:", error);
+            }
         }
     };
     
