@@ -43,6 +43,18 @@ export default function AccountNavigation() {
                         Profile
                     </ListGroup.Item>
                 )}
+                
+                {currentUser && currentUser.role === "ADMIN" && (
+                    <ListGroup.Item 
+                        as={Link} 
+                        to="/Kambaz/Account/Users"
+                        active={pathname.includes("/Users")}
+                        action
+                        className="border-0 text-danger"
+                        id="wd-users-nav-link">
+                        Users
+                    </ListGroup.Item>
+                )}
             </ListGroup>
         </div>
     );

@@ -118,3 +118,46 @@ export const createCourse = async (course: any) => {
     throw error;
   }
 };
+
+export const findAllUsers = async () => {
+  try {
+    const response = await axiosWithCredentials.get(USERS_API);
+    return response.data;
+  } catch (error) {
+    console.error("Fetch all users failed:", error);
+    throw error;
+  }
+};
+
+export const findUsersByRole = async (role: string) => {
+  const response = await
+    axios.get(`${USERS_API}?role=${role}`);
+  return response.data;
+};
+
+export const findUsersByPartialName = async (name: string) => {
+  const response = await axios.get(`${USERS_API}?name=${name}`);
+  return response.data;
+};
+
+export const findUserById = async (id: string) => {
+  const response = await axios.get(`${USERS_API}/${id}`);
+  return response.data;
+};
+
+export const deleteUser = async (userId: string) => {
+  const response = await axios.delete( `${USERS_API}/${userId}` );
+  return response.data;
+};
+
+export const createUser = async (user: any) => {
+  try {
+    const response = await axiosWithCredentials.post(USERS_API, user);
+    return response.data;
+  } catch (error) {
+    console.error("Create user failed:", error);
+    throw error;
+  }
+};
+
+
