@@ -6,7 +6,6 @@ import Courses from "./Courses";
 import "./style.css";
 import * as userClient from "./Account/client";
 import { useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import ProtectedRoute from "./Account/ProtectedRoute";
 import Session from "./Account/Session";
 import { useSelector } from "react-redux";
@@ -126,9 +125,6 @@ export default function Kambaz() {
             console.error("User must be logged in to delete a course");
             return;
           }
-          
-          // Call the API to delete the course
-          const status = await courseClient.deleteCourse(courseId);
           
           // Update the local state only after successful deletion
           setCourses(courses.filter((course) => course._id !== courseId));
