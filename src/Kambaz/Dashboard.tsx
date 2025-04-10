@@ -152,84 +152,86 @@ export default function Dashboard({
       <h2 id="wd-dashboard-published">Published Courses ({courses.length})</h2> <hr />
       <div id="wd-dashboard-courses">
         <Row xs={1} md={5} className="g-4" key={`courses-${courses.length}`}>
-          {courses.map((course) => (
-            <Col key={course._id} className="wd-dashboard-course" style={{ width: "300px" }}>
-              <Card>
-                <Link 
-                  to={`/Kambaz/Courses/${course._id}/Home`}
-                  className="wd-dashboard-course-link text-decoration-none text-dark"
-                  onClick={(e) => handleCourseNavigation(course._id, e)}
-                >
-                  <Card.Img src="/images/reactjs.jpg" variant="top" width="100%" height={160} />
-                  <Card.Body className="card-body">
-                    <Card.Title className="wd-dashboard-course-title text-nowrap overflow-hidden">
-                      {enrolling && (
+          {courses
+            .filter(course => course && course._id) // Add this filter
+            .map((course) => (
+              <Col key={course._id} className="wd-dashboard-course" style={{ width: "300px" }}>
+                <Card>
+                  <Link 
+                    to={`/Kambaz/Courses/${course._id}/Home`}
+                    className="wd-dashboard-course-link text-decoration-none text-dark"
+                    onClick={(e) => handleCourseNavigation(course._id, e)}
+                  >
+                    <Card.Img src="/images/reactjs.jpg" variant="top" width="100%" height={160} />
+                    <Card.Body className="card-body">
+                      <Card.Title className="wd-dashboard-course-title text-nowrap overflow-hidden">
+                        {enrolling && (
+                          <Button 
+                            className={`float-end btn ${course.enrolled ? "btn-danger" : "btn-success"}`}
+                            onClick={(event) => handleEnrollClick(course, event)}
+                          >
+                            {course.enrolled ? "Unenroll" : "Enroll"}
+                          </Button>
+                        )}
+                        {course.name}
+                      </Card.Title>
+                      <Card.Text className="wd-dashboard-course-description overflow-hidden" style={{ height: "100px" }}>
+                        {course.description}
+                      </Card.Text>
+                      <Button 
+                        variant="primary"
+                        onClick={(e) => handleGoButtonClick(course._id, e)}
+                      >
+                        Go
+                      </Button>
+                      
+                      <ProtectedContent>
                         <Button 
-                          className={`float-end btn ${course.enrolled ? "btn-danger" : "btn-success"}`}
-                          onClick={(event) => handleEnrollClick(course, event)}
+                          onClick={(event) => {
+                            event.preventDefault();
+                            deleteCourse(course._id);
+                          }} 
+                          className="btn btn-danger float-end"
+                          id="wd-delete-course-click">
+                          Delete
+                        </Button>
+                        <Button 
+                          id="wd-edit-course-click"
+                          onClick={(event) => {
+                            event.preventDefault();
+                            setCourse(course);
+                          }}
+                          className="btn btn-warning me-2 float-end">
+                          Edit
+                        </Button>
+                      </ProtectedContent>
+                      
+                      {!enrolling && isStudent && !isEnrolled(course._id) && (
+                        <Button 
+                          variant="success"
+                          className="float-end"
+                          disabled={processingCourseId === course._id || loading}
+                          onClick={(e) => handleEnroll(course._id, e)}
                         >
-                          {course.enrolled ? "Unenroll" : "Enroll"}
+                          {processingCourseId === course._id ? "Processing..." : "Enroll"}
                         </Button>
                       )}
-                      {course.name}
-                    </Card.Title>
-                    <Card.Text className="wd-dashboard-course-description overflow-hidden" style={{ height: "100px" }}>
-                      {course.description}
-                    </Card.Text>
-                    <Button 
-                      variant="primary"
-                      onClick={(e) => handleGoButtonClick(course._id, e)}
-                    >
-                      Go
-                    </Button>
-                    
-                    <ProtectedContent>
-                      <Button 
-                        onClick={(event) => {
-                          event.preventDefault();
-                          deleteCourse(course._id);
-                        }} 
-                        className="btn btn-danger float-end"
-                        id="wd-delete-course-click">
-                        Delete
-                      </Button>
-                      <Button 
-                        id="wd-edit-course-click"
-                        onClick={(event) => {
-                          event.preventDefault();
-                          setCourse(course);
-                        }}
-                        className="btn btn-warning me-2 float-end">
-                        Edit
-                      </Button>
-                    </ProtectedContent>
-                    
-                    {!enrolling && isStudent && !isEnrolled(course._id) && (
-                      <Button 
-                        variant="success"
-                        className="float-end"
-                        disabled={processingCourseId === course._id || loading}
-                        onClick={(e) => handleEnroll(course._id, e)}
-                      >
-                        {processingCourseId === course._id ? "Processing..." : "Enroll"}
-                      </Button>
-                    )}
-                    
-                    {!enrolling && isStudent && isEnrolled(course._id) && (
-                      <Button 
-                        variant="danger"
-                        className="float-end"
-                        disabled={processingCourseId === course._id || loading}
-                        onClick={(e) => handleUnenroll(course._id, e)}
-                      >
-                        {processingCourseId === course._id ? "Processing..." : "Unenroll"}
-                      </Button>
-                    )}
-                  </Card.Body>
-                </Link>
-              </Card>
-            </Col>
-          ))}
+                      
+                      {!enrolling && isStudent && isEnrolled(course._id) && (
+                        <Button 
+                          variant="danger"
+                          className="float-end"
+                          disabled={processingCourseId === course._id || loading}
+                          onClick={(e) => handleUnenroll(course._id, e)}
+                        >
+                          {processingCourseId === course._id ? "Processing..." : "Unenroll"}
+                        </Button>
+                      )}
+                    </Card.Body>
+                  </Link>
+                </Card>
+              </Col>
+            ))}
         </Row>
       </div>
     </div>
