@@ -160,4 +160,33 @@ export const createUser = async (user: any) => {
   }
 };
 
+export const findCoursesForUser = async (userId: string) => {
+  const response = await axiosWithCredentials.get(`${USERS_API}/${userId}/courses`);
+  return response.data;
+};
+
+export const enrollIntoCourse = async (userId: string, courseId: string) => {
+  try {
+    const response = await axiosWithCredentials.post(
+      `${USERS_API}/${userId}/courses/${courseId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Course enrollment failed:", error);
+    throw error;
+  }
+};
+
+export const unenrollFromCourse = async (userId: string, courseId: string) => {
+  try {
+    const response = await axiosWithCredentials.delete(
+      `${USERS_API}/${userId}/courses/${courseId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Course unenrollment failed:", error);
+    throw error;
+  }
+};
+
 

@@ -83,7 +83,12 @@ const enrollmentsSlice = createSlice({
       state.error = null;
     },
     addEnrollment: (state, action: PayloadAction<Enrollment>) => {
-      state.enrollments.push(action.payload);
+      return {
+        ...state,
+        enrollments: Array.isArray(state.enrollments) 
+          ? [...state.enrollments, action.payload]
+          : [action.payload]
+      };
     },
     removeEnrollment: (state, action: PayloadAction<{ userId: string; courseId: string }>) => {
       const { userId, courseId } = action.payload;
@@ -119,7 +124,9 @@ const enrollmentsSlice = createSlice({
       .addCase(enrollInCourse.fulfilled, (state, action) => {
         state.loading = false;
         if (action.payload) {
-          state.enrollments.push(action.payload);
+          state.enrollments = Array.isArray(state.enrollments) 
+            ? [...state.enrollments, action.payload]
+            : [action.payload];
         }
       })
       .addCase(enrollInCourse.rejected, (state, action) => {
