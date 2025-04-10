@@ -28,7 +28,10 @@ export default function Kambaz() {
     
     const updateEnrollment = async (courseId: string, enrolled: boolean) => {
         try {
-            if (!currentUser) return;
+            if (!currentUser) {
+                console.error("User must be logged in to update enrollment");
+                return;
+            }
             
             if (enrolled) {
                 await userClient.enrollIntoCourse(currentUser._id, courseId);
@@ -36,17 +39,15 @@ export default function Kambaz() {
                 await userClient.unenrollFromCourse(currentUser._id, courseId);
             }
             
-            setCourses(
-                courses.map((course) => {
-                    if (course._id === courseId) {
-                        return { ...course, enrolled: enrolled };
-                    } else {
-                        return course;
-                    }
-                })
-            );
+            // Refresh courses list after enrollment change
+            if (enrolling) {
+                await fetchCourses();
+            } else {
+                await findCoursesForUser();
+            }
         } catch (error) {
             console.error("Enrollment update failed:", error);
+            alert("Enrollment update failed. Please try again.");
         }
     };
       
@@ -54,13 +55,18 @@ export default function Kambaz() {
         try {
             if (!currentUser) return;
             const allCourses = await courseClient.fetchAllCourses();
-            const enrolledCourses = await userClient.findCoursesForUser(currentUser._id);
+            // Filter out null or invalid courses
+            const validAllCourses = allCourses.filter((c: any) => c && c._id);
             
-            const courses = allCourses.map((course: any) => {
-                if (enrolledCourses.find((c: any) => c._id === course._id)) {
+            const enrolledCourses = await userClient.findCoursesForUser(currentUser._id);
+            // Filter out null or invalid courses
+            const validEnrolledCourses = enrolledCourses.filter((c: any) => c && c._id);
+            
+            const courses = validAllCourses.map((course: any) => {
+                if (validEnrolledCourses.find((c: any) => c._id === course._id)) {
                     return { ...course, enrolled: true };
                 } else {
-                    return course;
+                    return { ...course, enrolled: false };
                 }
             });
             setCourses(courses);
