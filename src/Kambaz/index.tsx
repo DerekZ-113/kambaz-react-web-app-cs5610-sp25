@@ -11,6 +11,16 @@ import Session from "./Account/Session";
 import { useSelector } from "react-redux";
 import * as courseClient from "./Courses/client";
 
+// Filter out react-beautiful-dnd warnings
+const originalConsoleWarn = console.warn;
+console.warn = function filterWarnings(msg, ...args) {
+  if (typeof msg === 'string' && 
+      msg.includes('Support for defaultProps will be removed from memo components')) {
+    return;
+  }
+  originalConsoleWarn(msg, ...args);
+};
+
 export default function Kambaz() {
     const [courses, setCourses] = useState<any[]>([]);
     const [enrolling, setEnrolling] = useState<boolean>(false);
@@ -186,7 +196,11 @@ export default function Kambaz() {
                         } />
                         <Route path="/Courses/:cid/*" element={
                             <ProtectedRoute>
-                                <Courses courses={courses} /> 
+                                {/* Fixed: Added currentUser prop */}
+                                <Courses 
+                                    courses={courses}
+                                    currentUser={currentUser} 
+                                />
                             </ProtectedRoute>
                         } />
                         <Route path="/Calendar" element={<h1>Calendar</h1>} />

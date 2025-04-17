@@ -1,0 +1,33 @@
+.details-tab {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.card {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+.card-header {
+  background-color: #f0f0f0;
+  font-weight: 600;
+}
+
+.form-label {
+  font-weight: 500;
+}
+
+.form-text {
+  font-size: 0.85rem;
+}
+
+.form-check {
+  margin-top: 8px;
+}
+
+/* Make date-time inputs more readable */
+input[type="datetime-local"] {
+  padding: .375rem .75rem;
+}

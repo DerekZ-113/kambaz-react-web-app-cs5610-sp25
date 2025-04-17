@@ -1,0 +1,52 @@
+.quiz-details-container {
+  padding: 20px;
+}
+
+.quiz-details-card {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.quiz-description {
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.quiz-props-list .list-group-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+}
+
+.prop-name {
+  font-weight: 500;
+  color: #555;
+}
+
+.prop-value {
+  font-weight: 400;
+  color: #212529;
+}
+
+.quiz-status .badge {
+  font-size: 0.9rem;
+  padding: 6px 10px;
+}
+
+.quiz-actions button {
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .quiz-props-list .list-group-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .prop-value {
+    margin-top: 5px;
+  }
+}
